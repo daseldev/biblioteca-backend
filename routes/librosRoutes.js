@@ -8,7 +8,6 @@ const { eliminarLibro } = require('../controllers/librosController');
 router.post('/', verificarToken, crearLibro); // Solo autenticados
 router.get('/', obtenerLibros); // GET /api/libros
 router.put('/:id', verificarToken, actualizarLibro); // PUT /api/libros/:id
-
 router.delete('/:id', verificarToken, eliminarLibro);
 
 
