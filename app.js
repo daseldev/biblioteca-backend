@@ -25,3 +25,7 @@ app.use('/api/usuarios', usuariosRoutes);
 const librosRoutes = require('./routes/librosRoutes');
 app.use('/api/libros', librosRoutes);
 
+const reservasRoutes = require('./routes/reservasRoutes');
+app.use('/api/reservas', reservasRoutes);
+
+
