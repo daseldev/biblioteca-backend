@@ -6,7 +6,10 @@ const registrarUsuario = async (req, res) => {
   const { nombre, correo, contraseña } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(contraseña, 10);
+    const pepper = process.env.PEPPER;
+    const contraseñaConPepper = contraseña + pepper;
+    const hashedPassword = await bcrypt.hash(contraseñaConPepper, 10);
+    
 
     const result = await db.query(
       'INSERT INTO usuarios (nombre, correo, contraseña) VALUES ($1, $2, $3) RETURNING id, nombre, correo',
@@ -37,7 +40,10 @@ const loginUsuario = async (req, res) => {
     }
 
     const usuario = result.rows[0];
-    const passwordMatch = await bcrypt.compare(contraseña, usuario.contraseña);
+    const pepper = process.env.PEPPER;
+    const contraseñaConPepper = contraseña + pepper;
+    const passwordMatch = await bcrypt.compare(contraseñaConPepper, usuario.contraseña);
+    
 
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Correo o contraseña incorrectos' });
